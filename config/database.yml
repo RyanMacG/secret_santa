@@ -1,7 +1,7 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: asset_development
+  database: santa_development
   pool: 5
   host: localhost
   username: ryanmacg
@@ -10,7 +10,7 @@ development:
 test:
   adapter: postgresql
   encoding: unicode
-  database: asset_test
+  database: santa_test
   pool: 5
   host: localhost
   username: ryanmacg
@@ -19,7 +19,7 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
-  database: asset_test
+  database: santa_test
   pool: 5
   host: localhost
   username: ryanmacg
