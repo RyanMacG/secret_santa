@@ -5,6 +5,12 @@
         = render 'shared/user_info'
       %section
         = render 'shared/group_form'
+    .span6
+      - if current_user.groups.any?
+        %h3 
+          Recent Groups
+        %ul.groups
+          = render @groups
 - else
   .center.hero-unit
     %h1 Secret Santa
