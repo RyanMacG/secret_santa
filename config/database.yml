@@ -19,7 +19,7 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
-  database: santa_test
+  database: santa_production
   pool: 5
   host: localhost
   username: ryanmacg
