@@ -1,5 +1,6 @@
 class GroupsController < ApplicationController
-  before_action :signed_in_user, only: [:create, :destroy, :index]
+  before_action :signed_in_user,  only: [:create, :destroy, :index]
+  before_action :correct_user,    only: :destroy
 
   def index
   end
@@ -15,6 +16,9 @@ class GroupsController < ApplicationController
   end
 
   def destroy
+    @group.destroy
+    flash[:error] = "Group deleted"
+    redirect_to root_url
   end
 
   def show
@@ -24,5 +28,10 @@ class GroupsController < ApplicationController
   private
     def group_params
       params.require(:group).permit(:name, :year, :limit)
+    end
+
+    def correct_user
+      @group = current_user.groups.find_by(id: params[:id])
+      redirect_to root_url if @group.nil?
     end
 end

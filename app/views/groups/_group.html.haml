@@ -2,4 +2,6 @@
   .group_block
     = link_to(group.name, group)
     - unless group.year.blank?
-      %span.year= group.year
+      %span.year
+        = h(group.year)
+        = link_to "x", group, method: :delete, data: { confirm: "Delete this group?" }, title: "Delete: #{group.name}", class: "btn btn-mini btn-danger"
