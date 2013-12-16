@@ -4,3 +4,11 @@
       %h1
         = gravatar_for @user
         = @user.name
+  .span8
+    - if @user.groups.any?
+      %h3 
+        Groups 
+        = (@user.groups.count)
+      %ul.groups
+        = render @groups
+      = will_paginate @groups
