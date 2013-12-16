@@ -13,6 +13,7 @@ describe User do
   it { should respond_to(:password_confirmation) }
   it { should respond_to(:remember_token) }
   it { should respond_to(:authenticate) }
+  it { should respond_to(:groups) }
 
   it { should be_valid }
 
@@ -76,5 +77,29 @@ describe User do
   describe "remember token" do
     before { @user.save }
     its(:remember_token) { should_not be_blank }
+  end
+
+  describe "group associations" do
+
+    before { @user.save }
+    let!(:older_group) do
+      FactoryGirl.create(:group, user: @user, created_at: 1.day.ago)
+    end
+    let!(:newer_group) do
+      FactoryGirl.create(:group, user: @user, created_at: 1.hour.ago)
+    end
+
+    it "should have the right groups in the right order" do
+      expect(@user.groups.to_a).to eq [newer_group, older_group]
+    end
+
+    it "should destroy associated groups" do
+      groups = @user.groups.to_a
+      @user.destroy
+      expect(groups).not_to be_empty
+      groups.each do |group|
+        expect(Group.where(id: group.id)).to be_empty
+      end
+    end
   end
 end

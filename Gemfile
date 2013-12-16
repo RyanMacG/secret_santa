@@ -25,6 +25,7 @@ group :development, :test do
   gem 'childprocess', '0.3.9'
   gem 'pry'
   gem 'pry-debugger'
+  gem 'faker', '1.1.2'
 end
 
 group :test do
