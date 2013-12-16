@@ -1,5 +1,13 @@
-.center.hero-unit
-  %h1 Secret Santa
-  %h2 A Secret Santa application built with groups that have couples in them in mind
+- if signed_in?
+  .row
+    %aside.span4
+      %section
+        = render 'shared/user_info'
+      %section
+        = render 'shared/group_form'
+- else
+  .center.hero-unit
+    %h1 Secret Santa
+    %h2 A Secret Santa application built with groups that have couples in them in mind
 
-  = link_to "Sign up now!", signup_path, class: "btn btn-large btn-primary"
+    = link_to "Sign up now!", signup_path, class: "btn btn-large btn-primary"
