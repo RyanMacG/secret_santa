@@ -5,4 +5,11 @@ FactoryGirl.define do
     password "foobar"
     password_confirmation "foobar"
   end
+
+  factory :group do
+    name  "Group 1"
+    limit "$15"
+    year  "2013"
+    user
+  end
 end
