@@ -1,6 +1,6 @@
 class GroupsController < ApplicationController
-  before_action :signed_in_user,  only: [:create, :destroy, :index]
-  before_action :correct_user,    only: :destroy
+  before_action :signed_in_user,  only: [:create, :destroy, :index, :match]
+  before_action :correct_user,    only: [:destroy, :match]
 
   def index
   end
@@ -23,7 +23,25 @@ class GroupsController < ApplicationController
 
   def show
     @group = Group.find(params[:id])
+    @participant = @group.participants.build if signed_in?
+    @participants = @group.participants.paginate(page: (params[:page]))
     @page_title = @group.name
+  end
+
+  def match
+    @group.participants.each do |participant|
+      if !participant.partner_id.blank?
+        @potential_giftees = @group.participants.where(['matched = ? AND id <> ? AND id <> ?', false, participant.id, participant.partner_id])
+      else
+        @potential_giftees = @group.participants.where(['matched = ? AND id <> ?', false, participant.id])
+      end
+      giftee = @potential_giftees.sample
+      participant.giftee_id = giftee.id
+      giftee.matched = true
+      participant.save!
+      giftee.save!
+    end
+    redirect_to group_path(@group)
   end
 
   private
