@@ -30,16 +30,17 @@ class GroupsController < ApplicationController
 
   def match
     @group.participants.each do |participant|
-      if !participant.partner_id.blank?
-        @potential_giftees = @group.participants.where(['matched = ? AND id <> ? AND id <> ?', false, participant.id, participant.partner_id])
+      if participant.partner_id
+        @potential_giftees = @group.participants.where(['matched = ? AND id <> ? AND partner_id <> ?', false, participant.id, participant.partner_id])
       else
         @potential_giftees = @group.participants.where(['matched = ? AND id <> ?', false, participant.id])
       end
       giftee = @potential_giftees.sample
       participant.giftee_id = giftee.id
       giftee.matched = true
-      participant.save!
-      giftee.save!
+      if participant.save! && giftee.save!
+        GroupMailer.gifting_confirmation(participant, giftee, @group).deliver
+      end
     end
     redirect_to group_path(@group)
   end
