@@ -94,6 +94,15 @@ aside {
   }
 }
 
+.participants {
+  list-style: none;
+  margin: 10px 0 0 0;
+
+  li {
+    padding: 10px 0;
+  }
+}
+
 /* forms */
 
 input, textarea, select, .uneditable-input {
