@@ -1,0 +1,6 @@
+%li
+  .group_block
+    = link_to(participant.name, edit_participant_path(participant))
+    - unless participant.partner.blank?
+      = h(participant.partner.name)
+    = link_to "x", participant, method: :delete, data: { confirm: "Delete this group?" }, title: "Delete: #{participant.name}", class: "btn btn-mini btn-danger"
