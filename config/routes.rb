@@ -1,11 +1,13 @@
 SecretSanta::Application.routes.draw do
   resources :users
   resources :groups
+  resources :participants
   resources :sessions, only: [:new, :create, :destroy]
   root 'static_pages#home'
+  post '/groups/:id/match',   to: 'groups#match'
   match '/signup',  to: 'users#new',          via: 'get'
   match '/signin',  to: 'sessions#new',       via: 'get'
-  match '/signout',  to: 'sessions#destroy',       via: 'get'
+  match '/signout', to: 'sessions#destroy',   via: 'get'
   match '/help',    to: 'static_pages#help',  via: 'get'
   match '/about',   to: 'static_pages#about', via: 'get'
   # The priority is based upon order of creation: first created -> highest priority.
