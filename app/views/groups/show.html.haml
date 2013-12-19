@@ -20,4 +20,5 @@
     %ul.participants
       = render @participants
       = will_paginate(@participants)
-    = link_to "Match", "/groups/#{@group.id}/match", class: "btn btn-primary", method: 'post'
+    - if @participants.count > 1
+      = link_to "Match", "/groups/#{@group.id}/match", class: "btn btn-primary", method: 'post'

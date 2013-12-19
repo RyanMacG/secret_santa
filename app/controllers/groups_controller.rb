@@ -29,12 +29,8 @@ class GroupsController < ApplicationController
   end
 
   def match
-    @group.participants.each do |participant|
-      if participant.partner_id
-        @potential_giftees = @group.participants.where(['matched = ? AND id <> ? AND partner_id <> ?', false, participant.id, participant.partner_id])
-      else
-        @potential_giftees = @group.participants.where(['matched = ? AND id <> ?', false, participant.id])
-      end
+    @group.participants.order("partner_id ASC").each do |participant|
+      @potential_giftees = @group.participants.where(['matched = ? AND (id <> ? AND partner_id <> ? OR partner_id IS NULL)', false, participant.id, participant.id])
       giftee = @potential_giftees.sample
       participant.giftee_id = giftee.id
       giftee.matched = true
